@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { FaUser } from 'react-icons/fa';
 import { toast } from 'react-toastify';
@@ -10,7 +10,8 @@ import { toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
 
 // this funtion will get dispatched
-import { register } from '../features/auth/authSlice';
+import { register, reset } from '../features/auth/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -23,11 +24,26 @@ function Register() {
 
   // we can dispatch any function now
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // stuff from authSlice
-  const { user, isLoading, isSuccess, message } = useSelector(
+  const { user, isLoading, isSuccess, isError, message } = useSelector(
     (state) => state.auth
   );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    //redirect when logedin
+    if (isSuccess || user) {
+      navigate('/'); // go home
+      // toast.success('registered successfully');
+    }
+
+    dispatch(reset());
+  }, [isError, isSuccess, user, message, navigate, dispatch]);
+
   // this is update the from data
   const onChange = (e) => {
     // console.log('OnChange');
@@ -62,7 +78,7 @@ function Register() {
     <>
       <section className="heading">
         <h1>
-          <FaUser /> Register {user}
+          <FaUser /> Register
         </h1>
         <p>create an account</p>
       </section>
