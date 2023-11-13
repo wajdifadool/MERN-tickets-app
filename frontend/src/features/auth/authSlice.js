@@ -15,4 +15,18 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {},
 });
 
+// this is just fuction so we can use asynchronize data
+// will be dispacthed from the register.jsx page
+export const register = createAsyncThunk(
+  'auth/register',
+  async (user, thunkAPI) => {
+    console.log(user);
+  }
+);
+
+// will be dispacthed from the Login.jsx page
+export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
+  console.log(user);
+});
+
 export default authSlice.reducer;
