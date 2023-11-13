@@ -1,16 +1,18 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { FaSignInAlt } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import Spinner from '../components/Spinner';
 
 // Hooks
 // useSelectr: for stuff in the global state
 // Dispatch our action such register functionality
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 // this funtion will get dispatched
-import { login } from '../features/auth/authSlice';
+import { login, reset } from '../features/auth/authSlice';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -21,11 +23,25 @@ function Login() {
 
   // we can dispatch any function now
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // stuff from authSlice
-  const { user, isLoading, isSuccess, message } = useSelector(
+  const { user, isLoading, isSuccess, message, isError } = useSelector(
     (state) => state.auth
   );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    //redirect when logedin
+    if (isSuccess || user) {
+      navigate('/'); // go home
+      // toast.success('registered successfully');
+    }
+
+    dispatch(reset());
+  }, [isError, isSuccess, user, message, navigate, dispatch]);
 
   // this is update the from data
   const onChange = (e) => {
@@ -51,6 +67,8 @@ function Login() {
     // dispapatch user Data
     dispatch(login(userData));
   };
+
+  if (isLoading) return <Spinner />;
   return (
     <>
       <section className="heading">

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 
 import { FaUser } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import Spinner from '../components/Spinner';
 
 // Hooks
 // useSelectr: for stuff in the global state
@@ -74,6 +75,10 @@ function Register() {
     // dispapatch user Data
     dispatch(register(userData));
   };
+
+  if (isLoading) {
+    return <Spinner />;
+  }
   return (
     <>
       <section className="heading">

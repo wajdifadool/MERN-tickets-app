@@ -11,6 +11,10 @@ const initialState = {
   isLoading: false,
   message: '',
 };
+// Logout user
+export const logout = createAsyncThunk('auth/logout', async () => {
+  await authService.logout();
+});
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -40,6 +44,25 @@ export const authSlice = createSlice({
         // state.isSuccess =false   by default the object param = false
         // state.user = null;
         state.message = action.payload; // the response from the server
+      })
+
+      .addCase(login.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        // state.isSuccess =false   by default the object param = false
+        state.user = null;
+        state.message = action.payload; // the response from the server
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.user = null;
       });
   },
 });
@@ -69,6 +92,20 @@ export const register = createAsyncThunk(
 // will be dispacthed from the Login.jsx page
 export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
   console.log(user);
+
+  try {
+    return await authService.login(user);
+  } catch (error) {
+    console.log('authSlice.jsx::login(),error', error);
+    // cosnt message
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+
+  //
 });
 export const { reset } = authSlice.actions;
 export default authSlice.reducer;
