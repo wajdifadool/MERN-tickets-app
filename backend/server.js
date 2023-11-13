@@ -28,6 +28,7 @@ app.get('/', (req, res) => {
 });
 // Conecct the app to the routes files
 app.use('/api/users', require('./routes/UserRoutes'));
+app.use('/api/tickets', require('./routes/TicketRoutes'));
 app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`Server started at port${PORT}`));
