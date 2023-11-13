@@ -9,8 +9,10 @@ const router = express.Router();
 const {
   registatUser,
   loginUser,
-  asyncCall,
+  getMe,
 } = require('../controlers/userControler');
+// evrey time we need to protect route , we pass the protect cosnt as 2nd arg
+const { protect } = require('../middleware/authMiddleware');
 // router.post('/', (req, res) => {
 //   res.send('Registar Route goes here');
 // });
@@ -22,5 +24,6 @@ const {
 
 router.post('/', registatUser);
 router.post('/login', loginUser);
+router.get('/me', protect, getMe);
 
 module.exports = router;
