@@ -118,7 +118,6 @@ const DeleteSingleTicket = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error('not Authorized ');
   }
-  console.log('My Ticker', ticket);
   // delete the ticket from DB
   await ticket.deleteOne();
   res.status(200).json({
