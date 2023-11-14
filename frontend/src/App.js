@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/Header';
 import NewTicket from './pages/NewTicket';
 import Tickets from './pages/Tickets';
+import Ticket from './pages/Ticket';
 import PrivateRoute from './components/PrivateRoute';
 
 // <> is a fragment</>
@@ -40,6 +41,15 @@ function App() {
               element={
                 <PrivateRoute>
                   <Tickets />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/ticket/:ticketId"
+              element={
+                <PrivateRoute>
+                  <Ticket />
                 </PrivateRoute>
               }
             />

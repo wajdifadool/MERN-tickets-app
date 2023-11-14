@@ -22,7 +22,7 @@ export const useAuthStatus = () => {
       setLoogedIn(false);
     }
     setCheckingStatus(false);
-    console.log('useAuthStatus.jsx::useEffect()', loogedIn, checkingStatus);
+    // console.log('useAuthStatus.jsx::useEffect()', loogedIn, checkingStatus);
   }, [user, loogedIn, checkingStatus]);
   return { loogedIn, checkingStatus };
 };
