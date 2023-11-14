@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // Import Components
 import Header from './components/Header';
 import NewTicket from './pages/NewTicket';
+import Tickets from './pages/Tickets';
 import PrivateRoute from './components/PrivateRoute';
 
 // <> is a fragment</>
@@ -24,12 +25,21 @@ function App() {
             {/* Adding The Tickets  */}
 
             {/* // Will FIX: */}
-
             <Route
               path="/new-ticket"
               element={
                 <PrivateRoute>
                   <NewTicket />
+                </PrivateRoute>
+              }
+            />
+            {/* Showing all tickets */}
+
+            <Route
+              path="/tickets"
+              element={
+                <PrivateRoute>
+                  <Tickets />
                 </PrivateRoute>
               }
             />

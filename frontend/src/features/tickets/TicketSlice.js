@@ -10,9 +10,53 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
-
   ticket: {},
 };
+
+export const createTicket = createAsyncThunk(
+  'tickets/create',
+  async (ticketData, thunkAPI) => {
+    // the thunkAPI has on it method called get sate
+    // we can get any state from any object usering the thunkAPi
+    // this is with redux toolkit feture
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await ticketService.createTicket(ticketData, token);
+    } catch (error) {
+      console.log('authSlice.jsx::register(),error', error);
+      // cosnt message
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getTickets = createAsyncThunk(
+  'tickets/getAll',
+  async (_, thunkAPI) => {
+    // the thunkAPI has on it method called get sate
+    // we can get any state from any object usering the thunkAPi
+    // this is with redux toolkit feture
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await ticketService.getTickets(token);
+    } catch (error) {
+      // cosnt message
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 
 //   state.ticket = [];
 //   state.isLoading = false;
@@ -45,32 +89,24 @@ export const TicketSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+      })
+
+      .addCase(getTickets.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getTickets.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.tickets = action.payload;
+      })
+      /// rcall if its rejected , rejectWithMessagegget called
+      .addCase(getTickets.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       });
   },
 });
-
-export const createTicket = createAsyncThunk(
-  'tickets/create',
-  async (ticketData, thunkAPI) => {
-    // the thunkAPI has on it method called get sate
-    // we can get any state from any object usering the thunkAPi
-    // this is with redux toolkit feture
-    try {
-      const token = thunkAPI.getState().auth.user.token;
-      return await ticketService.createTicket(ticketData, token);
-    } catch (error) {
-      console.log('authSlice.jsx::register(),error', error);
-      // cosnt message
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(message);
-    }
-  }
-);
 
 export const { reset } = TicketSlice.actions;
 export default TicketSlice.reducer;

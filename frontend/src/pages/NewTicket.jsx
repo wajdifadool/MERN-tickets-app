@@ -1,13 +1,17 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
 import { useNavigate } from 'react-router-dom';
+
 import { toast } from 'react-toastify';
 import Spinner from '../components/Spinner';
-import { createTicket } from '../features/tickets/TicketSlice';
+
+import { createTicket, reset } from '../features/tickets/TicketSlice';
+
+import BackButton from '../components/BackButton';
+
 function NewTicket() {
-  const { reset, isLoading, isSuccess, isError, message } = useSelector(
+  const { isLoading, isSuccess, isError, message } = useSelector(
     (state) => state.ticket
   );
 
@@ -24,22 +28,33 @@ function NewTicket() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isError) {
-      toast.error('message');
-    }
     if (isSuccess) {
-      // reset the state
-
       dispatch(reset());
-      // navigate('/tickets')
-      toast.success('Ticket created ');
+      toast.success('successfully created ! ');
+      navigate('/');
     }
 
-    if (reset && typeof reset === 'function') {
-      console.log('rest');
-      dispatch(reset());
+    if (isError) {
+      toast.error('not created ! ');
     }
-  }, [dispatch, isError, isSuccess, navigate, message, reset]);
+  }, [dispatch, isSuccess, isError]);
+  // useEffect(() => {
+  //   if (isError) {
+
+  //   }
+
+  //   if (isSuccess) {
+  //     // reset the state
+  //     // navigate('/tickets');
+  //     toast.success('Ticket created and reseted  ');
+  //   }
+
+  //   // if (reset && typeof reset === 'function') {
+  //   //   console.log('rest');
+  //   //   // dispatch(reset());
+  //   // }
+  // }, [dispatch, isError, isSuccess, navigate, message, reset]);
+
   const onSubmit = (e) => {
     e.preventDefault();
     console.log('daipaching');
@@ -51,6 +66,7 @@ function NewTicket() {
   if (isLoading) return <Spinner />;
   return (
     <>
+      <BackButton url="/" />
       {/* New Ticket */}
       <section className="heading">
         <h1>Create new Ticket</h1>
