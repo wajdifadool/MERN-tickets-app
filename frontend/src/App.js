@@ -7,6 +7,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // Import Components
 import Header from './components/Header';
+import NewTicket from './pages/NewTicket';
+import PrivateRoute from './components/PrivateRoute';
 
 // <> is a fragment</>
 function App() {
@@ -19,6 +21,25 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            {/* Adding The Tickets  */}
+
+            {
+              // Will FIX:
+              //we dont want children
+              /* <Route
+              path="/new-ticket"
+              element={
+                <PrivateRoute>
+                  <NewTicket />
+                </PrivateRoute>
+              }
+            /> */
+            }
+            {/* FIXME: */}
+            <Route path="/new-ticket" element={<PrivateRoute />}>
+              {/* this is nested route used for checking if the usder is loged in or no  */}
+              <Route path="/new-ticket" element={<NewTicket />} />
+            </Route>
           </Routes>
         </div>
       </Router>
