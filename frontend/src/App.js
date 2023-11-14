@@ -23,23 +23,16 @@ function App() {
             <Route path="/register" element={<Register />} />
             {/* Adding The Tickets  */}
 
-            {
-              // Will FIX:
-              //we dont want children
-              /* <Route
+            {/* // Will FIX: */}
+
+            <Route
               path="/new-ticket"
               element={
                 <PrivateRoute>
                   <NewTicket />
                 </PrivateRoute>
               }
-            /> */
-            }
-            {/* FIXME: */}
-            <Route path="/new-ticket" element={<PrivateRoute />}>
-              {/* this is nested route used for checking if the usder is loged in or no  */}
-              <Route path="/new-ticket" element={<NewTicket />} />
-            </Route>
+            />
           </Routes>
         </div>
       </Router>
@@ -51,3 +44,11 @@ function App() {
 }
 
 export default App;
+
+// {/* FIXME: */}
+//<Route path="/new-ticket" element={<PrivateRoute />}>
+{
+  /* this is nested route used for checking if the usder is loged in or no  */
+}
+//<Route path="/new-ticket" element={<NewTicket />} />
+//</Route>

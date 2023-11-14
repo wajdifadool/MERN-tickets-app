@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuthStatus } from '../hooks/useAuthStatus';
 import Spinner from './Spinner';
@@ -14,10 +14,11 @@ const PrivateRoute = () => {
 };
 
 export default PrivateRoute;
-
+*/
 /**
- * WILL ADAMS FIX 
- * import { Navigate } from 'react-router-dom';
+ * WILL ADAMS FIX
+ */
+import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Spinner from './Spinner';
 
@@ -26,15 +27,13 @@ import Spinner from './Spinner';
 // No need for an outlet as we are not using nested routing
 
 const PrivateRoute = ({ children }) => {
-    const { user, loading } = useSelector((state) => state.auth);
+  const { user, loading } = useSelector((state) => state.auth);
 
-    if (loading) return <Spinner />;
+  if (loading) return <Spinner />;
 
-    if (user) return children;
+  if (user) return children;
 
-    return <Navigate to="/login" />;
+  return <Navigate to="/login" />;
 };
 
 export default PrivateRoute;
- * 
- */
