@@ -76,6 +76,25 @@ export const getTicket = createAsyncThunk(
   }
 );
 
+// Close Ticelet
+export const closeTicket = createAsyncThunk(
+  'ticket/close',
+  async (ticketId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await ticketService.closeTicket(ticketId, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 //   state.ticket = [];
 //   state.isLoading = false;
 //   state.isError = false;
@@ -136,6 +155,15 @@ export const TicketSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+      })
+
+      .addCase(closeTicket.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        // the ticket already updated in the backend, now just update in the frontend
+        state.tickets.map((ticket) =>
+          ticket._id === action.payload.id ? (ticket.stats = 'closed') : ticket
+        );
       });
   },
 });
