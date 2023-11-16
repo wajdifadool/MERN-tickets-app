@@ -17,6 +17,11 @@ const {
 // evrey time we need to protect route , we pass the protect cosnt as 2nd arg
 const { protect } = require('../middleware/authMiddleware');
 
+// Re-route into note routers
+// bring the note routes
+const noteRouter = require('./NoteRoute');
+router.use('/:ticketId/notes', noteRouter);
+
 // just get the user ticket
 router.route('/').get(protect, getTickets).post(protect, createTicket);
 router
