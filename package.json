@@ -9,6 +9,9 @@
     "client": "npm start --prefix frontend",
     "dev": "concurrently \" npm run server\" \" npm run client\""
   },
+  "engines": {
+    "node": ">=18.15.0 <19.0.0"
+  },
   "author": "Wajde fadool",
   "license": "MIT",
   "dependencies": {
