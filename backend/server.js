@@ -3,6 +3,7 @@ const dotenv = require('dotenv').config();
 const colors = require('colors');
 const { errorHandler } = require('./middleware/errorMiddleware');
 const connectDB = require('./config/db');
+const path = require('path');
 
 // Connect to DB
 connectDB();
