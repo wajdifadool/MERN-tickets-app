@@ -41,6 +41,7 @@ h3 {
   margin: 0 auto;
   padding: 0 20px;
   text-align: center;
+  padding-bottom: 5vh;
 }
 
 .header {
@@ -405,6 +406,74 @@ footer {
   }
 }
 
+.hide-lg {
+  display: none;
+}
+@media (max-width: 480px) {
+  /* Styles for larger mobile devices and small tablets */
+  .ticket {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+  .ticket-headings {
+    display: none;
+  }
+  .hide-lg {
+    display: inline-block;
+  }
+}
+
 textarea {
   resize: none;
+}
+
+/* Ui Feutres  */
+.ticket-headings-sort {
+  display: flex;
+  justify-content: space-between; /* This creates space between the children */
+
+  /* text-align: center; */
+}
+/* 
+.dropdown-menu {
+  position: absolute;
+  top: 100px;
+  right: 20px;
+  background-color: gray;
+  border-radius: 10px;
+  padding: 10px 20px;
+  width: 200px;
+}
+
+.dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: 20px;
+  height: 20px;
+  width: 20px;
+  font-weight: 500;
+  font-size: 18px;
+  transform: rotate(45deg);
+} */
+#ticket-id-status {
+  display: block;
+}
+#ticket-id-status > p {
+  word-break: break-all;
+}
+/* Select Option  */
+#select-sort {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+}
+/* Style for the options inside the select */
+#select-sort option {
+  background-color: #ffffff; /* Background color for the options */
+  color: #333; /* Font color for the options */
+  font-family: Arial, sans-serif; /* Font family for the options */
+  font-size: 14px; /* Font size for the options */
 }

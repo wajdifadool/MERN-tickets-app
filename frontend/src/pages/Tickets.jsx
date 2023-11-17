@@ -44,10 +44,18 @@ import { useEffect } from 'react';
 import Spinner from '../components/Spinner';
 import BackButton from '../components/BackButton';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTickets, reset } from '../features/tickets/TicketSlice';
+import {
+  getTickets,
+  reset,
+  updateTickets,
+} from '../features/tickets/TicketSlice';
 import { useNavigate } from 'react-router-dom';
 import TicketItem from '../components/TicketItem';
 
+import SortButton from '../components/SortButton';
+import FilterButton from '../components/FilterButton';
+import SortItem from '../components/SortItem';
+import DropDown from '../components/DropDown';
 function Tickets() {
   // Bring the  state via redux
   const { tickets, isLoading, isSuccess } = useSelector(
@@ -74,10 +82,45 @@ function Tickets() {
     console.log(tickets);
   }, [dispatch]);
 
+  /**
+   * ---------------
+   * Sorting Tickets
+   * ---------------
+   */
+  const sortTickets = (by) => {
+    let sortedTickets = [...tickets]; // Create a copy of the tickets array
+    switch (by) {
+      case 'Product':
+        sortedTickets.sort((a, b) => a.product.localeCompare(b.product));
+        break;
+      case 'Status':
+        sortedTickets.sort((a, b) => a.stats.localeCompare(b.stats));
+        break;
+      case 'Date':
+        sortedTickets.sort(
+          (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+        );
+        break;
+      default:
+        break;
+    }
+
+    return sortedTickets;
+  };
+
   if (isLoading) return <Spinner />;
   return (
     <div>
-      <BackButton url="/" />
+      <div className="ticket-headings-sort">
+        <BackButton url={'/'} />
+        <SortItem
+          OnChangeparam={(e) => {
+            const sorted = sortTickets(e.target.value);
+            dispatch(updateTickets(sorted));
+          }}
+        />
+      </div>
+
       {/* Load the List ui here */}
       <div className="tickets">
         <div className="ticket-headings">

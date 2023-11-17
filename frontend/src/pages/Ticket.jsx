@@ -34,6 +34,21 @@ function Ticket() {
       position: 'relative',
     },
   };
+
+  const customStylesSmall = {
+    content: {
+      width: '85vw',
+      height: '40vh',
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      position: 'relative',
+    },
+  };
+
   Modal.setAppElement('#root');
   const { ticket, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.ticket
@@ -95,8 +110,8 @@ function Ticket() {
       <header className="ticket-header">
         <BackButton url={'/tickets'} />
 
-        <h2>
-          Ticket id = {ticket._id}
+        <h2 id="ticket-id-status">
+          <p> Ticket id = {ticket._id}</p>
           <span className={`status staus-${ticket.stats}`}>{ticket.stats}</span>
         </h2>
         <h3>
@@ -119,7 +134,7 @@ function Ticket() {
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        style={customStyles}
+        style={window.innerWidth > 650 ? customStyles : customStylesSmall}
         contentLabel="Add Note">
         <h2>Add Note</h2>
         <button className="btn-close" onClick={closeModal}>

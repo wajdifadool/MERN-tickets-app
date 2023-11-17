@@ -95,6 +95,10 @@ export const closeTicket = createAsyncThunk(
   }
 );
 
+export const sortTicketProduct = () => {
+  tickets.sort((a, b) => a.product.localeCompare(b.product));
+};
+
 //   state.ticket = [];
 //   state.isLoading = false;
 //   state.isError = false;
@@ -109,6 +113,9 @@ export const TicketSlice = createSlice({
       state.isError = false;
       state.isSuccess = false;
       state.message = '';
+    },
+    updateTickets(state, action) {
+      state.tickets = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -168,5 +175,5 @@ export const TicketSlice = createSlice({
   },
 });
 
-export const { reset } = TicketSlice.actions;
+export const { reset, updateTickets } = TicketSlice.actions;
 export default TicketSlice.reducer;
