@@ -2,6 +2,28 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
+## Deployed
+
+- Deployed [on Render.com](ADD LINK HERE )
+
+## Used Tools:
+
+- Frontend:
+  - React.js
+  - Redux toolkit
+- Backend:
+  - Express.js server
+  - Authentication
+  - MongoDB - Mongoose
+
+## Environment variables:
+
+- Create a file named `.env` and set these variables:
+  - NODE_ENV - development
+  - PORT - server's port number
+  - MONGO_DB_CONNECT - Moingo DB connection string
+  - JWT_SECRET - JSON Web Token Secret string
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -29,3 +51,7 @@ It runs npm start specifically within the frontend directory.
 
 Used as Development environment/
 Concurrently runs both the server and client scripts.
+
+## More :
+
+adds the .env
