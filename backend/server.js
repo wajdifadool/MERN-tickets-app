@@ -1,14 +1,15 @@
+const path = require('path');
 const express = require('express'); // import express
 const dotenv = require('dotenv').config();
 const colors = require('colors');
 const { errorHandler } = require('./middleware/errorMiddleware');
 const connectDB = require('./config/db');
-const path = require('path');
+const PORT = process.env.PORT || 5000;
 
 // Connect to DB
 connectDB();
+
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 //  we have to add the middleware to able to read the data
 // otherwise we cant read the data
