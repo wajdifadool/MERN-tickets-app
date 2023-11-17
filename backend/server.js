@@ -20,15 +20,32 @@ app.use(express.urlencoded({ extended: false }));
 //   res.json({ message: 'message' });
 // });
 
+// app.get('/', (req, res) => {
+//   //   res.send('Hello');
+//   //   res.status(200).json({ message: 'message' });
+//   res.status(200).json({ message: 'Welcome to server . . . ' });
+// });
+
 // Routes
-app.get('/', (req, res) => {
-  //   res.send('Hello');
-  //   res.status(200).json({ message: 'message' });
-  res.status(200).json({ message: 'Welcome to server . . . ' });
-});
 // Conecct the app to the routes files
 app.use('/api/users', require('./routes/UserRoutes'));
 app.use('/api/tickets', require('./routes/TicketRoutes'));
+
+// Serve Frontend
+if (process.env.NODE_ENV === 'production') {
+  // Set build folder as static
+  app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+  // FIX: below code fixes app crashing on refresh in deployment
+  app.get('*', (_, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
+  });
+} else {
+  app.get('/', (_, res) => {
+    res.status(200).json({ message: 'Welcome to the Support Desk API' });
+  });
+}
+
 app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`Server started at port${PORT}`));
