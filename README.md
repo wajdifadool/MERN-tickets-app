@@ -23,12 +23,13 @@ Deployment
 The app is deployed on Render and can be accessed [here](https://tickets-r1vp.onrender.com)
 
 ### Tech Stack
-Frontend: React, Redux Toolkit
-Backend: Node.js, Express.js
-Database: MongoDB
-Authentication: JWT (JSON Web Tokens)
-Deployment [on Render.com](https://tickets-r1vp.onrender.com)
+- Frontend: React, Redux Toolkit
+- Backend: Node.js, Express.js
+- Database: MongoDB
+- Authentication: JWT (JSON Web Tokens)
 
+
+> Deployment [on Render.com](https://tickets-r1vp.onrender.com)
 
 > This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
