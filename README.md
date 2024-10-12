@@ -29,7 +29,7 @@ The app is deployed on Render and can be accessed [here](https://tickets-r1vp.on
 - Authentication: JWT (JSON Web Tokens)
 
 
-> Deployment [on Render.com](https://tickets-r1vp.onrender.com)
+> Deployment [on Render.com](https://tickets-r1vp.onrender.com) (give it ~1 min to load) 
 
 > This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
