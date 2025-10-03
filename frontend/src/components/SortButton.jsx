@@ -1,14 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { FaSort } from 'react-icons/fa';
-import { useState } from 'react';
+import React from 'react'
+import { FaSort } from 'react-icons/fa'
 
-const SortButton = ({ onSrotClick }) => {
-  const [open, setOpen] = useState(true);
+function SortButton({ onSortClick }) {
+  const [open, isOpen] = useState(true)
   return (
-    <button onClick={onSrotClick} className="btn btn-reverse btn-back">
-      <FaSort /> Sort{' '}
-    </button>
-  );
-};
-export default SortButton;
+    <div>
+      <button onClick={onSortClick} className="btn btn-reverse btn-back">
+        <FaSort /> Sort{' '}
+      </button>
+    </div>
+  )
+}
+
+export default SortButton

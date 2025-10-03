@@ -1,9 +1,9 @@
-const jwt = require('jsonwebtoken');
-const asyncHandler = require('express-async-handler');
-const User = require('../models/userModel');
+const jwt = require('jsonwebtoken')
+const asyncHandler = require('express-async-handler')
+const User = require('../models/userModel')
 
 const protect = asyncHandler(async (req, res, next) => {
-  let token;
+  let token
   // console.log('Protecting, Headers:', req.headers);
 
   if (
@@ -12,17 +12,17 @@ const protect = asyncHandler(async (req, res, next) => {
   ) {
     try {
       // get token from header
-      token = req.headers.authorization.split(' ')[1];
+      token = req.headers.authorization.split(' ')[1]
       // The token format as follows: 'Bearer sdfodfj4454_json_web_token-afdafe;l;s'
 
       // verify Token
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      // get user from token
-      req.user = await User.findById(decoded.id).select('-password');
+      const decoded = jwt.verify(token, process.env.JWT_SECRET)
+      // get user .  exclude password
+      req.user = await User.findById(decoded.id).select('-password')
 
-      next();
+      next() // this will call the function getMe()
       /**
-       * he next() function is not a part of the Node.js or
+       *  the next() function is not a part of the Node.js or
        *  Express API, but is the third argument that is passed to
        *  the middleware function.
        *  The next() function could be named anything,
@@ -30,17 +30,17 @@ const protect = asyncHandler(async (req, res, next) => {
        *  To avoid confusion, always use this convention.
        */
     } catch (error) {
-      console.log(error);
-      res.status(401);
-      throw new Error('Not authorized');
+      console.log(error)
+      res.status(401)
+      throw new Error('Not authorized')
     }
   }
 
   // no token
   if (!token) {
-    res.status(401);
-    throw new Error('Not authorized');
+    res.status(401)
+    throw new Error('Not authorized')
   }
-});
+})
 
-module.exports = { protect };
+module.exports = { protect }

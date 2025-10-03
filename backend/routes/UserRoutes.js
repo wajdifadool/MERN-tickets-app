@@ -1,29 +1,28 @@
-/**
- * All routes declartion goes here
- */
-
-const express = require('express'); // import express for express routes
-const router = express.Router();
-
-// import routes
+const express = require('express')
+const router = express.Router()
 const {
-  registatUser,
   loginUser,
+  registerUser,
   getMe,
-} = require('../controlers/userControler');
-// evrey time we need to protect route , we pass the protect cosnt as 2nd arg
-const { protect } = require('../middleware/authMiddleware');
+} = require('../controlers/userControler')
+
+const { protect } = require('../middleware/authMidlleware')
+/**
+ * this is how its done with no controller
+ */
 // router.post('/', (req, res) => {
-//   res.send('Registar Route goes here');
-// });
+//   res.send('Register Route goes here ')
+// })
+
 // router.post('/login', (req, res) => {
-//     res.send('Login Route goes here');
-//   });
+//   res.send('Log in  Route goes here....  ')
+// })
 
-// Cleaner way is to import
+router.post('/login', loginUser)
+router.post('/', registerUser)
+router.get('/me', protect, getMe) // we add protect, see explination
 
-router.post('/', registatUser);
-router.post('/login', loginUser);
-router.get('/me', protect, getMe);
+module.exports = router
 
-module.exports = router;
+// we add protect as an argument , each time we need to protext someroute
+// we add the  protect  to the route

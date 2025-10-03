@@ -1,7 +1,8 @@
-const mongoose = require('mongoose');
-const { boolean } = require('webidl-conversions');
-
-// aschema for all fields we want for the note
+const mongoose = require('mongoose')
+/**
+ * Each ticket is connected to user
+ * therefor, there is a relation betwenn ticket and user
+ */
 const noteSchema = mongoose.Schema(
   {
     user: {
@@ -9,27 +10,29 @@ const noteSchema = mongoose.Schema(
       required: true,
       ref: 'User',
     },
+
     ticket: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: 'Ticket',
     },
+
     text: {
       type: String,
-      required: [true, 'Please Enter Some text  '],
+      required: [true, 'please Enter note text'],
     },
     isStaff: {
       type: Boolean,
-      required: false,
+      default: false,
     },
-
-    staffId: {
+    stafId: {
       type: String,
     },
   },
+
   {
     timestamps: true,
   }
-);
+)
 
-module.exports = mongoose.model('Note', noteSchema);
+module.exports = mongoose.model('note', noteSchema)

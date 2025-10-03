@@ -1,11 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { FaArrowAltCircleLeft } from 'react-icons/fa';
+import { FaArrowCircleLeft } from 'react-icons/fa'
+
+import { Link } from 'react-router-dom'
+
 const BackButton = ({ url }) => {
   return (
-    <Link to={url} className="btn btn-reverse btn-back">
-      <FaArrowAltCircleLeft /> Back
-    </Link>
-  );
-};
-export default BackButton;
+    <div>
+      <Link to={url} className="btn btn-back btn-reverse">
+        <FaArrowCircleLeft />
+      </Link>
+    </div>
+  )
+}
+
+export default BackButton

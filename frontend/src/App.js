@@ -1,18 +1,20 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Register from './pages/Register';
-import Login from './pages/Login';
-// UI Classes
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-// Import Components
-import Header from './components/Header';
-import NewTicket from './pages/NewTicket';
-import Tickets from './pages/Tickets';
-import Ticket from './pages/Ticket';
-import PrivateRoute from './components/PrivateRoute';
+import React from 'react'
+// Es6 Classes
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+// Pages
+import Home from './pages/Home'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import NewTicket from './pages/NewTicket'
 
-// <> is a fragment</>
+// Components
+import Header from './components/Header'
+import PrivateRoute from './components/PrivateRoute'
+import Tickets from './pages/Tickets'
+import Ticket from './pages/Ticket'
+
 function App() {
   return (
     <>
@@ -23,52 +25,41 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            {/* Adding The Tickets  */}
+            <Route path="/new-ticket" element={<PrivateRoute />}>
+              {/*
+               * So every time we want to create a private route, this is how we need to do it.
+               * We wrap it in the private route and then we put the actual element that we want to access.
+               * And the URL is going to be the same for for both of these.
+               */}
+              <Route path="/new-ticket" element={<NewTicket />} />
+            </Route>
 
-            {/* // Will FIX: */}
-            <Route
-              path="/new-ticket"
-              element={
-                <PrivateRoute>
-                  <NewTicket />
-                </PrivateRoute>
-              }
-            />
-            {/* Showing all tickets */}
+            {/* Tickets */}
+            <Route path="/tickets" element={<PrivateRoute />}>
+              {/*
+               * So every time we want to create a private route, this is how we need to do it.
+               * We wrap it in the private route and then we put the actual element that we want to access.
+               * And the URL is going to be the same for for both of these.
+               */}
+              <Route path="/tickets" element={<Tickets />} />
+            </Route>
 
-            <Route
-              path="/tickets"
-              element={
-                <PrivateRoute>
-                  <Tickets />
-                </PrivateRoute>
-              }
-            />
-
-            <Route
-              path="/ticket/:ticketId"
-              element={
-                <PrivateRoute>
-                  <Ticket />
-                </PrivateRoute>
-              }
-            />
+            {/* Ticket */}
+            <Route path="/ticket/:ticketId" element={<PrivateRoute />}>
+              {/*
+               * So every time we want to create a private route, this is how we need to do it.
+               * We wrap it in the private route and then we put the actual element that we want to access.
+               * And the URL is going to be the same for for both of these.
+               */}
+              <Route path="/ticket/:ticketId" element={<Ticket />} />
+            </Route>
           </Routes>
         </div>
       </Router>
-
-      {/* Toasts goes here */}
+      {/* // Toast outside the Router */}
       <ToastContainer />
     </>
-  );
+  )
 }
 
-export default App;
-
-// {/* FIXME: */}
-//<Route path="/new-ticket" element={<PrivateRoute />}>
-{
-  /* this is nested route used for checking if the usder is loged in or no  */
-}
-//<Route path="/new-ticket" element={<NewTicket />} />
-//</Route>
+export default App

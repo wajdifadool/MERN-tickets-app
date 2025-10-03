@@ -1,99 +1,99 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React from 'react'
+import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { toast } from 'react-toastify';
-import Spinner from '../components/Spinner';
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
-import { createTicket, reset } from '../features/tickets/TicketSlice';
+import { createNewTicket, reset } from '../features/tickets/ticketSlice'
 
-import BackButton from '../components/BackButton';
-
+import Spinner from '../components/Spinner'
+import BackButton from '../components/BackButton'
 function NewTicket() {
-  const { isLoading, isSuccess, isError, message } = useSelector(
-    (state) => state.ticket
-  );
+  // sort of SingleTone instance
+  const { user } = useSelector((state) => state.auth)
 
-  // get user from global sate
-  const { user } = useSelector((state) => state.auth);
-  const [name, setName] = useState(user.name);
-  const [email, seEmail] = useState(user.email);
-  // no need for then
-  const [product, setProduct] = useState('iPhone');
-  const [description, setDescription] = useState('');
+  // from TicketSLice
+  const { isError, isSuccess, isLoading, message } = useSelector(
+    (state) => state.tickets
+  )
 
-  // init dispatch
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  //   const [name, setName] = useState(user.name)
+  // const [email, seteamil] = useState(user.email)
+  const [name] = useState(user.name)
+  const [email] = useState(user.email)
+  const [product, setProduct] = useState('iPhone')
+  const [description, setDescription] = useState('')
 
   useEffect(() => {
-    if (isSuccess) {
-      dispatch(reset());
-      toast.success('successfully created ! ');
-      navigate('/');
-    }
-
+    // this fields will be changed aotomaaticly
     if (isError) {
-      toast.error('not created ! ');
+      toast.error(message)
+    } else if (isSuccess) {
+      //   ok  now resatr the states ,
+      dispatch(reset())
+      // navigate to tickets
+      navigate('/tickets')
+      toast.success('Ticket created ')
     }
-  }, [dispatch, isSuccess, isError]);
-  // useEffect(() => {
-  //   if (isError) {
+  }, [isError, isSuccess, message, navigate, dispatch])
 
-  //   }
-
-  //   if (isSuccess) {
-  //     // reset the state
-  //     // navigate('/tickets');
-  //     toast.success('Ticket created and reseted  ');
-  //   }
-
-  //   // if (reset && typeof reset === 'function') {
-  //   //   console.log('rest');
-  //   //   // dispatch(reset());
-  //   // }
-  // }, [dispatch, isError, isSuccess, navigate, message, reset]);
-
+  //   Inner Functions
   const onSubmit = (e) => {
-    e.preventDefault();
-    console.log('daipaching');
-    // create ticket with object on the fly
-    dispatch(createTicket({ product, description }));
-  };
+    e.preventDefault()
 
-  // JSX
-  if (isLoading) return <Spinner />;
+    console.log('calling on submit')
+    // freate the new ticket objecct
+
+    const ticketObject = {
+      name,
+      email,
+      product,
+      description,
+    }
+    // call the create tikcet fuction
+    dispatch(createNewTicket(ticketObject))
+    //after this is  done , there is no feedback ,
+    // there for we use the useEffect()
+  }
+  if (isLoading) {
+    return <Spinner />
+  }
+
   return (
     <>
       <BackButton url="/" />
-      {/* New Ticket */}
       <section className="heading">
         <h1>Create new Ticket</h1>
-        <p>please Fill the form below : </p>
+        <p>please fill out the form and submit</p>
       </section>
+
       <section className="form">
+        {/* user Name  */}
         <div className="form-group">
-          <label htmlFor="name">Customer name</label>
+          <label htmlFor="name">Customer Name</label>
           <input
             type="text"
-            className="form-control"
-            name="name"
-            id="name"
-            value={name}
+            name=""
+            id=""
             disabled
+            value={name}
+            className="form-control"
           />
         </div>
 
+        {/* User Email */}
         <div className="form-group">
           <label htmlFor="email">Customer Email</label>
           <input
-            type="text"
-            className="form-control"
-            name="name"
-            id="name"
+            type="email"
+            name="email"
+            id=""
             value={email}
-            disabled
+            className="form-control"
           />
         </div>
 
@@ -106,34 +106,30 @@ function NewTicket() {
               value={product}
               onChange={(e) => setProduct(e.target.value)}>
               <option value="iPhone">iPhone</option>
-              <option value="MacBook Air">MacBook Air</option>
-              <option value="MacBook Pro">MacBook Pro</option>
-              <option value="iPad">iPad</option>
+              <option value="MacBook">MacBook</option>
             </select>
           </div>
+          {/* Descriotion  */}
+          <div className="form-group">
+            <label htmlFor="description">description of the issue</label>
+            <textarea
+              className="form-control"
+              name="description"
+              id="description"
+              value={description}
+              placeholder="issue Description"
+              onChange={(e) => setDescription(e.target.value)}>
+              {/* Te */}
+            </textarea>
+          </div>
+
+          <div className="form-group">
+            <button className="btn btn-block">Submit</button>
+          </div>
         </form>
-
-        <div className="form-group">
-          <label htmlFor="description">Description of the issue</label>
-          <textarea
-            name="description"
-            id="description"
-            cols="30"
-            rows="10"
-            className="form-control"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}></textarea>
-        </div>
-
-        <div className="form-group">
-          <button className="btn btn-block" onClick={onSubmit}>
-            {' '}
-            submit
-          </button>
-        </div>
       </section>
     </>
-  );
+  )
 }
 
-export default NewTicket;
+export default NewTicket

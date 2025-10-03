@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SortItem({ OnChangeparam }) {
   return (
@@ -9,7 +9,7 @@ function SortItem({ OnChangeparam }) {
         <option value="Date">Date</option>
       </select>
     </div>
-  );
+  )
 }
 
-export default SortItem;
+export default SortItem

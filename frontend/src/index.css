@@ -404,6 +404,17 @@ footer {
   .heading p {
     font-size: 1.5rem;
   }
+
+  .ticket-header h2 {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.3rem;
+  }
+
+  .ticket-header h2 span {
+    display: inline-block;
+    width: 70%;
+  }
 }
 
 .hide-lg {
@@ -462,6 +473,36 @@ textarea {
 #ticket-id-status > p {
   word-break: break-all;
 }
+/* Select Option  */
+#select-sort {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+}
+/* Style for the options inside the select */
+#select-sort option {
+  background-color: #ffffff; /* Background color for the options */
+  color: #333; /* Font color for the options */
+  font-family: Arial, sans-serif; /* Font family for the options */
+  font-size: 14px; /* Font size for the options */
+}
+
+.pageHeading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+}
+
+.page-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  /* shifts the title back by 50% of its width to achieve perfect centering */
+}
+
 /* Select Option  */
 #select-sort {
   padding: 8px;

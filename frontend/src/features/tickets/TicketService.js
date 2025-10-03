@@ -1,73 +1,69 @@
-import axios from 'axios';
-const API_URL = '/api/tickets';
+// the Backend layer goes here
 
-// create new ticket
+import axios from 'axios'
+
+// define the api url
+const API_URL = '/api/tickets/'
+
+// reate New Ticket
 const createTicket = async (ticketData, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  };
+  }
+  const response = await axios.post(API_URL, ticketData, config)
 
-  const response = await axios.post(API_URL, ticketData, config);
-  return response.data;
-};
+  return response.data
+}
 
-//get User Tickets
-const getTickets = async (token) => {
+// fetch the user Tickets
+// reate New Ticket
+const fetchUserTickets = async (token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  };
-  const response = await axios.get(API_URL, config);
-  return response.data;
-};
+  }
+  const response = await axios.get(API_URL, config)
 
-// Get a ticket based on the id
-const getTicket = async (ticketID, token) => {
+  return response.data
+}
+
+// fetch the user Ticket by id
+// reate New Ticket
+const getTicket = async (ticketId, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  };
-  const response = await axios.get(`${API_URL}/${ticketID}`, config);
-  setTimeout(() => {
-    console.log(response.url);
-  }, 3000);
+  }
+  const response = await axios.get(API_URL + ticketId, config)
 
-  console.log('resoponse is ', response);
-  return response.data;
-};
+  return response.data
+}
 
-// Close a ticket based on the id
-const closeTicket = async (ticketID, token) => {
+// Close the user Ticket by id
+const closeTicket = async (ticketId, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  };
+  }
   const response = await axios.put(
-    `${API_URL}/${ticketID}`,
-    {
-      stats: 'closed',
-    },
+    API_URL + ticketId,
+    { status: 'closed' },
     config
-  );
-  setTimeout(() => {
-    console.log(response.url);
-  }, 3000);
+  )
 
-  console.log('resoponse is ', response);
-  return response.data;
-};
+  return response.data
+}
 
-// Create the object
 const ticketService = {
   createTicket,
-  getTickets,
+  fetchUserTickets,
   getTicket,
   closeTicket,
-};
+}
 
-export default ticketService;
+export default ticketService

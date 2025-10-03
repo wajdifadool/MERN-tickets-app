@@ -1,116 +1,121 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react'
+import { toast } from 'react-toastify'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-import { FaSignInAlt } from 'react-icons/fa';
-import { toast } from 'react-toastify';
-import Spinner from '../components/Spinner';
+// for redux
+import { useSelector, useDispatch } from 'react-redux'
+import { login, reset } from '../features/auth/authSlice'
+import { FaSignInAlt } from 'react-icons/fa'
 
-// Hooks
-// useSelectr: for stuff in the global state
-// Dispatch our action such register functionality
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-
-// this funtion will get dispatched
-import { login, reset } from '../features/auth/authSlice';
+// UI
+import Spinner from '../components/Spinner'
 
 function Login() {
+  // this is the part for redux
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  // we can bring any state to our component using
+  // the selector useSelector() Hook
+  const { user, isLoading, isSuccess, message, isError } = useSelector(
+    (state) => state.auth
+  )
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-  });
-  const { email, password } = formData;
+  })
 
-  // we can dispatch any function now
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { email, password } = formData
 
-  // stuff from authSlice
-  const { user, isLoading, isSuccess, message, isError } = useSelector(
-    (state) => state.auth
-  );
-
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-    //redirect when logedin
-    if (isSuccess || user) {
-      navigate('/'); // go home
-      // toast.success('registered successfully');
-    }
-
-    dispatch(reset());
-  }, [isError, isSuccess, user, message, navigate, dispatch]);
-
-  // this is update the from data
   const onChange = (e) => {
-    // console.log('OnChange');
+    /**
+     * We use the same onChange handler for name, email and password.
+     * Using square bracket notation we can use a dynamic value [e.target.name] to set an object property,
+     * so if the user changes email then e.target.name is 'email' and so we will set email: 'some@email.com'
+     * If they change the password then e.target.name is 'password' and so we set password: '123456'
+     * It may be worth you reading up on Object property accessors in JS, in particular square bracket
+     * notation.
+     * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors
+     */
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
-    }));
-  };
+    }))
+  }
 
-  // for Submiting user Registar goes here
   const onSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    // validation
-
-    // create the User  Object from the fromData hook
     const userData = {
       email,
       password,
-    };
+    }
+    dispatch(login(userData))
+  }
+  useEffect(() => {
+    if (isError) {
+      toast.error(message)
+    }
+    // Redirect when Registerd
+    else if (isSuccess || user) {
+      // just go tho home page
+      navigate('/')
+    }
+    // reset the auth state from the auth slice
+    // we dont need the data any more
+    dispatch(reset())
+  }, [isError, isSuccess, user, message, navigate, dispatch])
 
-    // dispapatch user Data
-    dispatch(login(userData));
-  };
-
-  if (isLoading) return <Spinner />;
+  if (isLoading) {
+    return <Spinner />
+  }
   return (
     <>
       <section className="heading">
         <h1>
-          <FaSignInAlt /> Login
+          <FaSignInAlt /> Sign in
+          <p>Please Login to get Support</p>
         </h1>
-        <p>Please Log in to get support</p>
       </section>
-      <section className="from">
-        <form onSubmit={onSubmit}>
-          <div className="form-group">
-            <input
-              className="form-control"
-              type="email"
-              name="email"
-              id="email"
-              value={email}
-              onChange={onChange}
-              placeholder="Enter Email:"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <input
-              className="form-control"
-              type="password"
-              name="password"
-              id="password"
-              value={password}
-              onChange={onChange}
-              placeholder="Enter password:"
-              required
-            />
-          </div>
 
-          <div className="form-group">
-            <button className="btn btn-block">Login</button>
-          </div>
-        </form>
-      </section>
+      <form onSubmit={onSubmit}>
+        <div className="form-group">
+          <input
+            type="email"
+            className="form-control"
+            //
+            id="email"
+            name="email"
+            value={email}
+            onChange={onChange}
+            required
+            placeholder="Enter your email"
+          />
+        </div>
+
+        <div className="form-group">
+          <input
+            type="password"
+            className="form-control"
+            //
+            id="password"
+            name="password"
+            value={password}
+            onChange={onChange}
+            required
+            placeholder="Enter your password"
+          />
+        </div>
+
+        <div className="form-group">
+          <button className="btn btn-block">Submit</button>
+        </div>
+      </form>
     </>
-  );
+  )
 }
 
-export default Login;
+export default Login
