@@ -57,4 +57,10 @@ app.use('/api/tickets', require('./routes/TicketRoutes'))
 
 app.use(errorHandler)
 
-app.listen(PORT, () => console.log(`Server started at port${PORT}`))
+// Only listen if running locally
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => console.log(`Server started at port ${PORT}`))
+}
+
+// Export app for serverless environments like Vercel
+module.exports = app
